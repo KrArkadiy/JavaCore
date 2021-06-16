@@ -5,16 +5,19 @@ package main.java.com.KrArkadiy.javacore.chapter13;
   введите в командной строке следующую команду:
 
   java ShowFile Test.txt
+
+  В этом варианте программы код, открывающий и получающий доступ к файлу, заключен в один блок оператора try.
+  Файл закрывается в блоке оператора finally.
  */
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class ShowFile {
+public class ShowFile1 {
     public static void main(String[] args) {
         int i;
-        FileInputStream fin;
+        FileInputStream fin = null;
 
         //сначала убедиться, что имя файла указано
         if (args.length != 1){
@@ -22,28 +25,24 @@ public class ShowFile {
             return;
         }
 
-        //Попытка открыть файл
+        //В следующем коде сначала открывается файл, а затем из него читаются символы до тех пор, пока не встретится
+        //признак конца файла
         try{
             fin = new FileInputStream(args[0]);
-        }catch (FileNotFoundException e){
-            System.out.println("Невозможно открыть файл");
-            return;
-        }
-
-        //Теперь файл открыт и готов к чтению. Далее из него читаются символы до тех пор,
-        //пока не встретиться признак конца файла
-        try{
             do{
                 i = fin.read();
                 if(i != -1) System.out.println((char) i);
             } while(i != -1);
+        } catch (FileNotFoundException e){
+            System.out.println("Файл не найден");
         } catch (IOException e){
-            System.out.println("Ошибка чтения из файла");
-        }
-        finally {
+            System.out.println("Произошла ошибка ввода-вывода");
+        } finally {
             //закрыть файл при выходе из блока оператора try
             try {
-                fin.close();
+               if(fin != null){
+                   fin.close();
+                }
             } catch (IOException e){
                 System.out.println("Ошибка закрытия файла");
             }
