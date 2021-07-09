@@ -34,7 +34,7 @@ public class DemoJoin {
         System.out.println("Поток Один запушен: " + ob1.t.isAlive());
         System.out.println("Поток Два запущен: " + ob2.t.isAlive());
         System.out.println("поток Три запущен: " + ob3.t.isAlive());
-        //ожидать щавершения потоков исполнения
+        //ожидать завершения потоков исполнения
         try {
             System.out.println("Ожидание завершения потоков.");
             ob1.t.join();
